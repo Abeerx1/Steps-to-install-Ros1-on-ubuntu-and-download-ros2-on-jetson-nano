@@ -1,0 +1,30 @@
+Ros2 
+sudo apt update && sudo apt install curl gnupg2 lsb-release
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+sudo sh -c 'echo "deb [arch=$(dpkg --print-architecture)] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2-latest.list'
+mkdir -p ~/ros2_crystal
+cd ~/ros2_crystal
+tar xf ~/Downloads/ros2-crystal-linux-x86_64.tar.bz2
+sudo apt update
+sudo apt install -y python-rosdep
+sudo rosdep init # if already initialized you may continue
+rosdep update
+CHOOSE_ROS_DISTRO=crystal # or bouncy
+rosdep install --from-paths ros2-linux/share --ignore-src --rosdistro $CHOOSE_ROS_DISTRO -y --skip-keys "console_bridge fastcdr fastrtps libopensplice67 libopensplice69 osrf_testing_tools_cpp poco_vendor rmw_connext_cpp rosidl_typesupport_connext_c rosidl_typesupport_connext_cpp rti-connext-dds-5.3.1 tinyxml_vendor tinyxml2_vendor urdfdom urdfdom_headers"
+sudo apt install -y libpython3-dev
+. ~/ros2_crystal/ros2-linux/setup.bash
+sudo apt install python3-argcomplete
+sudo apt install python3-pip
+sudo pip3 install argcomplete
+. ~/ros2_crystal/ros2-linux/setup.bash
+ros2 run demo_nodes_cpp talker
+. ~/ros2_crystal/ros2-linux/setup.bash
+ros2 run demo_nodes_py listener
+. /opt/ros/melodic/setup.bash
+roscore
+. /opt/ros/melodic/setup.bash
+. ~/ros2_crystal/ros2-linux/setup.bash
+ros2 run ros1_bridge dynamic_bridge
+rm -rf ~/ros2_crystal
+
+
